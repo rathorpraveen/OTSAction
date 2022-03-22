@@ -1,0 +1,20 @@
+name: HOT-WebUI Action
+
+on: workflow_dispatch
+
+jobs:
+
+  WEBUI-Action:
+    runs-on: self-hosted
+    name: Execute Web-Ui Test
+    steps:
+      - name: Execute test
+        uses: rathorpraveen/OTSAction@rtww
+        with:
+          productpath: C:\Program Files\HCL\HCLOneTestfresh
+          imshared: C:\Program Files\HCL\HCLIMShared  
+          workspace: C:\Users\praveen.rathor\HCL\hclonetest\workspace\moeb
+          project: demo
+          suite: demo
+          
+          
