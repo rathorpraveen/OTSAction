@@ -1,26 +1,20 @@
-name: 'HCL OneTest Server Action'
-description: 'Adds pull request file changes as a comment to a newly opened PR'
+name: 'HOT-WebUI Action'
+description: 'HOT-WebUI Action'
 inputs:
-  serverUrl:
-    description: 'OTS URL'
+  productpath:
+    description: 'productpath'
     required: true
-  offlineToken:
-    description: 'OTS OfflineToken'
+  imshared:
+    description: 'imshared'
     required: true
-  teamspace:
-    description: 'OTS Teamspace'
+  workspace:
+    description: 'workspace'
     required: true
   project:
-    description: 'OTS Project'
+    description: 'Project'
     required: true
-  branch:
-    description: 'OTS branch'
-    required: true
-  repository:
-    description: 'OTS repository'
-    required: true
-  filepath:
-    description: 'OTS FilePath'
+  suite:
+    description: 'suite'
     required: true
 runs:
   using: 'node16'
