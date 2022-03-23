@@ -100,7 +100,7 @@ async function getResults(serverUrl, offlineToken) {
         console.log("");
         console.log("Error Message = " + message);
       } else {
-        console.log("failed");
+        
       }
       console.log("");
       if (
