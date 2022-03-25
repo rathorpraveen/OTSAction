@@ -102,7 +102,7 @@ async function getResults(serverUrl, offlineToken) {
       } else {
         
       }
-      console.log("");
+      console.log("@@");
       if (
         exeStatus != 'CANCELED' &&
         exeStatus != 'LAUNCH_FAILED'
