@@ -5,7 +5,7 @@ on: workflow_dispatch
 jobs:
 
   OTS-Action:
-    runs-on: self-hosted
+    runs-on: test1
     name: Execute OTS Test
     steps:
       - name: Execute test
