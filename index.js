@@ -976,7 +976,7 @@ async function projectIdGenByName(serverStore, asset) {
           );
         }
       } else {
-        console.log("@@@@@@@@@@@@@@@@ isnide else"):
+        console.log("@@@@@@@@@@@@@@@@ isnide else");
         throw new Error(
           "You do not have access to the project " +
           asset.getProject +
