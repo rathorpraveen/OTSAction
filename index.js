@@ -968,18 +968,18 @@ async function projectIdGenByName(serverStore, asset) {
         if (!gotId) {
           throw new Error(
             "You do not have access to the project " +
-              project +
+              asset.getProject +
               " or the project was not found in the teamspace " +
-              teamspace +
+              asset.getTeamspace +
               " in the server. Please check the Project field in the task."
           );
         }
       } else {
         throw new Error(
           "You do not have access to the project " +
-            project +
+          asset.getProject +
             " or the project was not found in the teamspace " +
-            teamspace +
+            asset.getTeamspace +
             " in the server. Please check the Project field in the task."
         );
       }
