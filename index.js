@@ -1141,14 +1141,14 @@ async function teamspaceIdGenByName(serverStore, asset) {
         if (!gotId) {
           throw new Error(
             "You do not have access to the team space " +
-              teamspace +
+              asset.getTeamspace +
               " or the team space was not found in the server. Please check the Team Space field in the task."
           );
         }
       } else {
         throw new Error(
           "You do not have access to the team space " +
-          teamspace +
+          asset.getTeamspace +
           +
             " or the team space was not found in the server. Please check the Team Space field in the task."
         );
