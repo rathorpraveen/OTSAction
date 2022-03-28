@@ -1136,7 +1136,7 @@ async function teamspaceIdGenByName(serverStore, asset) {
         for (var i = 0; i < total; i++) {
           retrievedTeamSpaceName = parsedJSON[i].displayName;
           if (asset.getTeamspace == retrievedTeamSpaceName) {
-            asset.teamSpaceId = parsedJSON[i].id;
+            asset.setTeamspaceId = parsedJSON[i].id;
             gotId = true;
             return;
           }
