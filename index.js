@@ -645,13 +645,13 @@ async function startJobExecution(serverStore, asset) {
     AssetParameters["dataSources"] = dataSources;
   }
 
-  if(tags)
+  if(asset.getTags)
   {
-   var tag = tags.split(',');
+   var tag = asset.getTags.split(',');
    AssetParameters["tags"] = tag;    
   }
 
-  if(secretsCollectionName)
+  if(asset.getSecretsCollection)
   {
    await getSecretCollectionId(serverStore,asset);
    AssetParameters["secretsCollection"] = asset.getSecretId;    
@@ -1310,7 +1310,7 @@ async function getSecretCollectionId(serverStore, asset) {
           retsecretCollectionName = respData.name;
           if (asset.getSecretsCollection == retsecretCollectionName) {
             secretsCollectionId = respData.id;
-            asset.secretsCollectionId = secretsCollectionId;
+            
             gotId = true;
             return true;
           }
