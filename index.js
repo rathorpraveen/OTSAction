@@ -119,7 +119,7 @@ const asset = {
     {
       this.filepath = filepath;
     },
-    get getFilePath(filepath)
+    get getFilePath()
     {
       return this.filepath;
     },
