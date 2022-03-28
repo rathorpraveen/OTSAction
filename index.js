@@ -931,7 +931,7 @@ async function projectIdGenByName(serverStore, asset) {
     serverStore.getServerUrl +
     "rest/projects?archived=false&member=true&name=" +
     encodedProjName;
-
+console.log("@@@@@@@@@@@@@@@@@@@@@@ url is ="+projectsListURL);
   await accessTokenGen(serverStore);
 
   var headers = {
@@ -954,6 +954,7 @@ async function projectIdGenByName(serverStore, asset) {
       }
       var parsedJSON = response.data;
       var total = parsedJSON.total;
+      console.log("@@@@@@@@@@@@@@@@@@@@@@@@@ total is "+total);
       var retrievedProjName;
       var gotId = false;
       if (total > 0) {
