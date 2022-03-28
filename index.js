@@ -144,7 +144,7 @@ const asset = {
 
     set setTeamspaceId(teamspaceId)
     {
-      this.teamspaceId = teamSpaceId;
+      this.teamspaceId = teamspaceId;
     },
     get getTeamSpaceId()
     {
