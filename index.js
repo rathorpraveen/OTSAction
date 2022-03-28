@@ -27,7 +27,7 @@ const serverStore = {
     offlineToken  :'',
     accessToken   :'',
 
-    set serverUrl(serverUrl)
+    set setServerUrl(serverUrl)
     {
       this.serverUrl = serverUrl;
     },
@@ -36,7 +36,7 @@ const serverStore = {
       return this.serverUrl;
     },
 
-    set offlineToken(offlineToken)
+    set setOfflineToken(offlineToken)
     {
       this.offlineToken = offlineToken;
     },
@@ -45,7 +45,7 @@ const serverStore = {
       return this.offlineToken;
     },
 
-    set accessToken(accessToken)
+    set setAccessToken(accessToken)
     {
       this.accessToken = accessToken;
     },
@@ -79,7 +79,7 @@ const asset = {
     verdictSet        :'',
     secretId          :'',
     
-    set teamspace(teamspace)
+    set setTeamspace(teamspace)
     {
       this.teamspace = teamspace;
     },
@@ -88,7 +88,7 @@ const asset = {
       return this.teamspace;
     },
 
-    set project(project)
+    set setProject(project)
     {
       this.project = project;
     },
@@ -97,7 +97,7 @@ const asset = {
       return this.project;
     },
 
-    set repository(repository)
+    set setRepository(repository)
     {
       this.repository = repository;
     },
@@ -106,7 +106,7 @@ const asset = {
       return this.repository;
     },
 
-    set branch(branch)
+    set setBranch(branch)
     {
       this.branch = branch;
     },
@@ -115,7 +115,7 @@ const asset = {
       return this.branch;
     },
 
-    set filepath(filepath)
+    set setFilepath(filepath)
     {
       this.filepath = filepath;
     },
@@ -124,7 +124,7 @@ const asset = {
       return this.filepath;
     },
 
-    set environment(environment)
+    set setEnvironment(environment)
     {
       this.environment = environment;
     },
@@ -133,7 +133,7 @@ const asset = {
       return this.environment;
     },
 
-    set projectId(projectId)
+    set setProjectId(projectId)
     {
       this.projectId = projectId;
     },
@@ -142,7 +142,7 @@ const asset = {
       return this.projectId;
     },
 
-    set teamspaceId(teamspaceId)
+    set setTeamspaceId(teamspaceId)
     {
       this.teamspaceId = teamSpaceId;
     },
@@ -151,7 +151,7 @@ const asset = {
       return this.teamspaceId;
     },
 
-    set repoId(repoId)
+    set setRepoId(repoId)
     {
       this.repoId = repoId;
     },
@@ -160,7 +160,7 @@ const asset = {
       return this.repoId;
     },
 
-    set assetId(assetId)
+    set setAssetId(assetId)
     {
       this.assetId = assetId;
     },
@@ -169,7 +169,7 @@ const asset = {
       return this.assetId;
     },
 
-    set externalType(externalType)
+    set setExternalType(externalType)
     {
       this.externalType = externalType;
     },
@@ -178,7 +178,7 @@ const asset = {
       return this.externalType;
     },
 
-    set assetName(assetName)
+    set setAssetName(assetName)
     {
       this.assetName = assetName;
     },
@@ -187,7 +187,7 @@ const asset = {
       return this.assetName;
     },
 
-    set desktopProjectId(desktopProjectId)
+    set setDesktopProjectId(desktopProjectId)
     {
       this.desktopProjectId = desktopProjectId;
     },
@@ -196,7 +196,7 @@ const asset = {
       return this.desktopProjectId;
     },
     
-    set executionId(executionId)
+    set setExecutionId(executionId)
     {
       this.executionId = executionId;
     },
@@ -205,7 +205,7 @@ const asset = {
       return this.executionId;
     },
 
-    set resultId(resultId)
+    set setResultId(resultId)
     {
       this.resultId = resultId;
     },
@@ -214,7 +214,7 @@ const asset = {
       return this.resultId;
     },
 
-    set execStatus(execStatus)
+    set setExecStatus(execStatus)
     {
       this.execStatus = execStatus;
     },
@@ -223,7 +223,7 @@ const asset = {
       return this.execStatus;
     },
 
-    set verdictSet(verdictSet)
+    set setVerdictSet(verdictSet)
     {
       this.verdictSet = verdictSet;
     },
@@ -232,7 +232,7 @@ const asset = {
       return this.verdictSet;
     },
 
-    set secretId(secretId)
+    set setSecretId(secretId)
     {
       this.secretId = secretId;
     },
@@ -241,7 +241,7 @@ const asset = {
       return this.secretId;
     },
 
-    set variables(variables)
+    set setVariables(variables)
     {
       this.variables = variables;
     },
@@ -250,7 +250,7 @@ const asset = {
       return this.variables;
     },
 
-    set datasets(datasets)
+    set setDatasets(datasets)
     {
       this.datasets = datasets;
     },
@@ -259,7 +259,7 @@ const asset = {
       return this.datasets;
     },
 
-    set tags(tags)
+    set setTags(tags)
     {
       this.tags = tags;
     },
@@ -268,7 +268,7 @@ const asset = {
       return this.tags;
     },
 
-    set secretsCollection(secretsCollection)
+    set setSecretsCollection(secretsCollection)
     {
       this.secretsCollection = secretsCollection;
     },
@@ -277,7 +277,7 @@ const asset = {
       return this.secretsCollection;
     },
 
-    set startDate(startDate)
+    set setStartDate(startDate)
     {
       this.startDate = startDate;
     },
@@ -296,29 +296,29 @@ const main = async () => {
      * and store them in variables for us to use.
      **/
     const serverUrl         = core.getInput('serverUrl',{required: true});
-    serverStore.serverUrl = serverUrl;
+    serverStore.setServerUrl = serverUrl;
     const offlineToken      = core.getInput('offlineToken',{required: true});
-    serverStore.offlineToken = offlineToken;
+    serverStore.setOfflineToken = offlineToken;
     const teamspace         = core.getInput('teamspace',{required: true});
-    asset.teamspace = teamspace;
+    asset.setTeamspace = teamspace;
     const project           = core.getInput('project',{required: true});
-    asset.project = project;
+    asset.setProject = project;
     const branch            = core.getInput('branch',{required: true});
-    asset.branch = branch;
+    asset.setBranch = branch;
     const repository        = core.getInput('repository',{required: true});
-    asset.repository = repository;
+    asset.setRepository = repository;
     const filepath          = core.getInput('filepath',{required: true});
-    asset.filepath = filepath;
+    asset.setFilepath = filepath;
     const variables         = core.getInput('variables',{required: false});
-    asset.variables = variables;
+    asset.setVariables = variables;
     const datasets          = core.getInput('datasets',{required: false});
-    asset.datasets = datasets;
+    asset.setDatasets = datasets;
     const tags              = core.getInput('tags',{required: false});
-    asset.tags = tags;
+    asset.setTags = tags;
     const secretsCollection = core.getInput('secretsCollection',{required: false});
-    asset.secretsCollection = secretsCollection;
+    asset.setSecretsCollection = secretsCollection;
     const startDate         = core.getInput('startDate',{required: false});
-    asset.startDate = startDate;
+    asset.setStartDate = startDate;
 
     await serverSSLCheck(serverStore);
 
@@ -537,7 +537,7 @@ async function getJobStatus(serverStore, asset) {
       status = parsedJSON.status;
       
       if (asset.getExecStatus != status) {
-        asset.exeStatus = status;
+        asset.setExecStatus = status;
         console.log(
           " Test Execution Status: " + asset.getExecStatus
         );
