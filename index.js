@@ -959,6 +959,7 @@ async function projectIdGenByName(serverStore, asset) {
       if (total > 0) {
         for (var i = 0; i < total; i++) {
           retrievedProjName = parsedJSON.data[i].name;
+          console.log("@@@@@@@@@@@@@@@@@@@@@@@@@retrievedProjName ="+retrievedProjName);
           if (asset.getProject == retrievedProjName) {
             asset.setProjectId = parsedJSON.data[i].id;
             gotId = true;
@@ -975,6 +976,7 @@ async function projectIdGenByName(serverStore, asset) {
           );
         }
       } else {
+        console.log("@@@@@@@@@@@@@@@@ isnide else"):
         throw new Error(
           "You do not have access to the project " +
           asset.getProject +
