@@ -1,5 +1,5 @@
 name: 'HCL OneTest Server Action'
-description: 'Adds pull request file changes as a comment to a newly opened PR'
+description: 'Execute OneTest Server Test from GitHub Action'
 inputs:
   serverUrl:
     description: 'OTS URL'
@@ -22,6 +22,21 @@ inputs:
   filepath:
     description: 'OTS FilePath'
     required: true
+  variables:
+    description: 'OTS variables'
+    required: false
+  datasets:
+    description: 'OTS datasets'
+    required: false
+  tags:
+    description: 'OTS tags'
+    required: false
+  secretsCollection:
+    description: 'OTS Secrets Collection'
+    required: false
+  startDate:
+    description: 'OTS startDate'
+    required: false          
 runs:
   using: 'node16'
   main: 'index.js'

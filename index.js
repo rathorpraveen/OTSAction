@@ -4,78 +4,449 @@ const urlencode = require("urlencode");
 const path = require("path");
 const url = require("url");
 const axios = require("axios");
-var accessToken;
-var teamSpaceId;
-var projectId;
-var repoId;
-var assetId;
-var externalType;
-var dektopProjId;
-var exeId;
-var resultId;
-var exeStatus;
+
+var datasetSrcId;
+var datasetReplaceId;
+var secretsCollectionId;
+const Status = {
+  COMPLETE: 'COMPLETE',
+  COMPLETE_WITH_ERROR: 'COMPLETE_WITH_ERROR',
+  STOPPED_BY_USER: 'STOPPED_BY_USER',
+  STOPPED_AUTOMATICALLY: 'STOPPED_AUTOMATICALLY',
+  INCOMPLETE: 'INCOMPLETE',
+  RUNNING: 'RUNNING',
+  IN_TRANSITION: 'IN_TRANSITION',
+  SCHEDULED: 'SCHEDULED',
+  CANCELED: 'CANCELED',
+  LAUNCH_FAILED: 'LAUNCH_FAILED',
+  STOPPING: 'STOPPING'
+};
+
+const serverStore = {
+    serverUrl     :'',
+    offlineToken  :'',
+    accessToken   :'',
+
+    set serverUrl(serverUrl)
+    {
+      this.serverUrl = serverUrl;
+    },
+    get getServerUrl()
+    {
+      return this.serverUrl;
+    },
+
+    set offlineToken(offlineToken)
+    {
+      this.offlineToken = offlineToken;
+    },
+    get getOfflineToken()
+    {
+      return this.offlineToken;
+    },
+
+    set accessToken(accessToken)
+    {
+      this.accessToken = accessToken;
+    },
+    get getAccessToken()
+    {
+      return this.accessToken;
+    }
+};
+const asset = {
+    teamspace         :'',
+    project           :'',
+    repository        :'',
+    branch            :'',
+    filepath          :'',
+    environment       :'',
+    variables         :'',
+    datasets          :'',
+    tags              :'',
+    secretsCollection :'',
+    startDate         :'',
+    projectId         :'',
+    teamspaceId       :'',
+    repoId            :'',
+    assetId           :'',
+    externalType      :'',
+    assetName         :'',
+    desktopProjectId  :'',
+    executionId       :'',
+    resultId          :'',
+    execStatus        :'',
+    verdictSet        :'',
+    secretId          :'',
+    
+    set teamspace(teamspace)
+    {
+      this.teamspace = teamspace;
+    },
+    get getTeamspace()
+    {
+      return this.teamspace;
+    },
+
+    set project(project)
+    {
+      this.project = project;
+    },
+    get getProject()
+    {
+      return this.project;
+    },
+
+    set repository(repository)
+    {
+      this.repository = repository;
+    },
+    get getRepository()
+    {
+      return this.repository;
+    },
+
+    set branch(branch)
+    {
+      this.branch = branch;
+    },
+    get getBranch()
+    {
+      return this.branch;
+    },
+
+    set filepath(filepath)
+    {
+      this.filepath = filepath;
+    },
+    get getFilePath(filepath)
+    {
+      return this.filepath;
+    },
+
+    set environment(environment)
+    {
+      this.environment = environment;
+    },
+    get getEnvironment()
+    {
+      return this.environment;
+    },
+
+    set projectId(projectId)
+    {
+      this.projectId = projectId;
+    },
+    get getProjectId()
+    {
+      return this.projectId;
+    },
+
+    set teamspaceId(teamspaceId)
+    {
+      this.teamspaceId = teamSpaceId;
+    },
+    get getTeamSpaceId()
+    {
+      return this.teamspaceId;
+    },
+
+    set repoId(repoId)
+    {
+      this.repoId = repoId;
+    },
+    get getRepoId()
+    {
+      return this.repoId;
+    },
+
+    set assetId(assetId)
+    {
+      this.assetId = assetId;
+    },
+    get getAssetId()
+    {
+      return this.assetId;
+    },
+
+    set externalType(externalType)
+    {
+      this.externalType = externalType;
+    },
+    get getExternalType()
+    {
+      return this.externalType;
+    },
+
+    set assetName(assetName)
+    {
+      this.assetName = assetName;
+    },
+    get getAssetName()
+    {
+      return this.assetName;
+    },
+
+    set desktopProjectId(desktopProjectId)
+    {
+      this.desktopProjectId = desktopProjectId;
+    },
+    get getDesktopProjectId()
+    {
+      return this.desktopProjectId;
+    },
+    
+    set executionId(executionId)
+    {
+      this.executionId = executionId;
+    },
+    get getExecutionId()
+    {
+      return this.executionId;
+    },
+
+    set resultId(resultId)
+    {
+      this.resultId = resultId;
+    },
+    get getResultId()
+    {
+      return this.resultId;
+    },
+
+    set execStatus(execStatus)
+    {
+      this.execStatus = execStatus;
+    },
+    get getExecStatus()
+    {
+      return this.execStatus;
+    },
+
+    set verdictSet(verdictSet)
+    {
+      this.verdictSet = verdictSet;
+    },
+    get getVerdictSet()
+    {
+      return this.verdictSet;
+    },
+
+    set secretId(secretId)
+    {
+      this.secretId = secretId;
+    },
+    get getSecretId()
+    {
+      return this.secretId;
+    },
+
+    set variables(variables)
+    {
+      this.variables = variables;
+    },
+    get getVariables()
+    {
+      return this.variables;
+    },
+
+    set datasets(datasets)
+    {
+      this.datasets = datasets;
+    },
+    get getDatasets()
+    {
+      return this.datasets;
+    },
+
+    set tags(tags)
+    {
+      this.tags = tags;
+    },
+    get getTags()
+    {
+      return this.tags;
+    },
+
+    set secretsCollection(secretsCollection)
+    {
+      this.secretsCollection = secretsCollection;
+    },
+    get getSecretsCollection()
+    {
+      return this.secretsCollection;
+    },
+
+    set startDate(startDate)
+    {
+      this.startDate = startDate;
+    },
+    get getStartDate()
+    {
+      return this.startDate;
+    }
+};
+
+
+
 const main = async () => {
   try {
     /**
      * We need to fetch all the inputs that were provided to our action
      * and store them in variables for us to use.
      **/
-    const serverUrl = core.getInput('serverUrl',{required: true});
-    const offlineToken = core.getInput('offlineToken',{required: true});
-    const teamspace = core.getInput('teamspace',{required: true});
-    const project  = core.getInput('project',{required: true});
-    const branch  = core.getInput('branch',{required: true});
-    const repository  = core.getInput('repository',{required: true});
-    const filepath  = core.getInput('filepath',{required: true});
+    const serverUrl         = core.getInput('serverUrl',{required: true});
+    serverStore.serverUrl = serverUrl;
+    const offlineToken      = core.getInput('offlineToken',{required: true});
+    serverStore.offlineToken = offlineToken;
+    const teamspace         = core.getInput('teamspace',{required: true});
+    asset.teamspace = teamspace;
+    const project           = core.getInput('project',{required: true});
+    asset.project = project;
+    const branch            = core.getInput('branch',{required: true});
+    asset.branch = branch;
+    const repository        = core.getInput('repository',{required: true});
+    asset.repository = repository;
+    const filepath          = core.getInput('filepath',{required: true});
+    asset.filepath = filepath;
+    const variables         = core.getInput('variables',{required: false});
+    asset.variables = variables;
+    const datasets          = core.getInput('datasets',{required: false});
+    asset.datasets = datasets;
+    const tags              = core.getInput('tags',{required: false});
+    asset.tags = tags;
+    const secretsCollection = core.getInput('secretsCollection',{required: false});
+    asset.secretsCollection = secretsCollection;
+    const startDate         = core.getInput('startDate',{required: false});
+    asset.startDate = startDate;
 
-    
-    await serverSSLCheck(serverUrl);
+    await serverSSLCheck(serverStore);
 
-    await teamspaceIdGenByName(serverUrl, teamspace, offlineToken);
+    await teamspaceIdGenByName(serverStore, asset);
 
-    await projectIdGenByName(serverUrl,project,teamspace,offlineToken);
+    await projectIdGenByName(serverStore, asset);
 
-    await repoIdGenByName(serverUrl,project,repository,offlineToken);
+    await repoIdGenByName(serverStore, asset);
 
-    await branchValidation(serverUrl,branch,project,offlineToken);
+    await branchValidation(serverStore, asset);
 
-    await AssetIdGenByName(serverUrl,filepath,branch,repository,project,offlineToken);
-
-    await startJobExecution(serverUrl,branch,offlineToken);
+    await AssetIdGenByName(serverStore, asset);
 
     if (
-      exeStatus != 'COMPLETE' ||
-      exeStatus != 'COMPLETE_WITH_ERROR' ||
-      exeStatus != 'STOPPED_BY_USER' ||
-      exeStatus != 'STOPPED_AUTOMATICALLY' ||
-      exeStatus != 'INCOMPLETE' ||
-      exeStatus != 'CANCELED' ||
-      exeStatus != 'LAUNCH_FAILED'
+        asset.getExternalType() == "APISUITE" ||
+        asset.getExternalType() == "APITEST" ||
+        asset.getExternalType() == "APISTUB"
+      ) 
+    {
+      await validateEnvironment(serverStore, asset);
+    }
+    await startJobExecution(serverStore, asset);
+
+    if (
+      exeStatus != Status.COMPLETE ||
+      exeStatus != Status.COMPLETE_WITH_ERROR ||
+      exeStatus != Status.STOPPED_BY_USER ||
+      exeStatus != Status.STOPPED_AUTOMATICALLY ||
+      exeStatus != Status.INCOMPLETE ||
+      exeStatus != Status.CANCELED ||
+      exeStatus != Status.LAUNCH_FAILED
     )
     {
 
-      await pollJobStatus(serverUrl, offlineToken);
+      await pollJobStatus(serverStore, asset);
     }
 
-     await getResults(serverUrl, offlineToken);
+     await getResults(serverStore, asset);
   } catch (error) {
     core.setFailed(error.message);
   }
 }
 
-async function getResults(serverUrl, offlineToken) {
+async function validateEnvironment(serverStore, asset) {
+  if (asset.getEnvironment == "" || asset.getEnvironment == null || asset.getEnvironment == undefined) {
+    throw new Error(
+      "Test Environment is mandatory to run API test. Please input the value in the API Test Environment field in the task."
+    );
+  }
+  
+  var encodedBranchName = urlencode(asset.getBranch);
+
+  var envListURL =
+    serverStore.getServerUrl +
+    "rest/projects/" +
+    asset.getProjectId +
+    "/assets/?assetTypes=environment&revision=" +
+    encodedBranchName +
+    "&desktopProjectId=" +
+    asset.getDesktopProjectId;
+
+  await accessTokenGen(serverStore);
+
+  var headers = {
+    "Accept-Language": "en",
+    Authorization: "Bearer " + serverStore.getAccessToken,
+  };
+  return axios
+    .get(envListURL, { headers: headers })
+    .then((response) => {
+      if (response.status != 200) {
+        throw new Error(
+          "Error during retrieval of environments list. " +
+            envListURL +
+            " returned " +
+            response.status +
+            " response code. Response: " +
+            response.data
+        );
+      }
+      var parsedJSON = response.data;
+      var total = parsedJSON.totalElements;
+      var RetrievedEnvName;
+      var gotEnv = false;
+      if (total > 0) {
+        for (var i = 0; i < total; i++) {
+          RetrievedEnvName = parsedJSON.content[i].name;
+          if (asset.getEnvironment == RetrievedEnvName) {
+            gotEnv = true;
+            return true;
+          }
+        }
+        if (gotEnv == false) {
+          throw new Error(
+            "The test environment " +
+              asset.getEnvironment +
+              " is not valid for the test. Please check the API Test Environment field in the task."
+          );
+        }
+      } else {
+        throw new Error(
+          "Test Environments unavailable for the test execution."
+        );
+      }
+    })
+    .catch((error) => {
+      throw new Error(
+        "Error when accessing environments list URL - " +
+          envListURL +
+          ". Error: " +
+          error
+      );
+    });
+}
+
+async function getResults(serverStore, asset) {
   var resultsURL =
-  serverUrl +
+  serverStore.getServerUrl +
     "rest/projects/" +
     projectId +
     "/results/" +
     resultId;
 
-  await accessTokenGen(serverUrl, offlineToken);
+  await accessTokenGen(serverStore);
 
   var headers = {
     "Accept-Language": "en",
-    Authorization: "Bearer " + accessToken,
+    Authorization: "Bearer " + serverStore.getAccessToken,
   };
   return axios
     .get(resultsURL, { headers: headers })
@@ -134,19 +505,19 @@ async function getResults(serverUrl, offlineToken) {
 }
 
 
-async function getJobStatus(serverUrl, offlineToken) {
+async function getJobStatus(serverStore, asset) {
   var jobStatusURL =
-  serverUrl +
+  serverStore.getServerUrl +
     "rest/projects/" +
-    projectId +
+    asset.getProjectId +
     "/executions/" +
-    exeId;
+    asset.getExecutionId;
 
-  await accessTokenGen(serverUrl,offlineToken);
+  await accessTokenGen(serverStore);
 
   var headers = {
     "Accept-Language": "en",
-    Authorization: "Bearer " + accessToken,
+    Authorization: "Bearer " + serverStore.getAccessToken,
   };
   var status;
   return axios
@@ -165,10 +536,10 @@ async function getJobStatus(serverUrl, offlineToken) {
       var parsedJSON = response.data;
       status = parsedJSON.status;
       
-      if (exeStatus != status) {
-        exeStatus = status;
+      if (asset.getExecStatus != status) {
+        asset.exeStatus = status;
         console.log(
-          " Test Execution Status: " + exeStatus
+          " Test Execution Status: " + asset.getExecStatus
         );
       }
     })
@@ -182,20 +553,20 @@ async function getJobStatus(serverUrl, offlineToken) {
     });
 }
 
-async function pollJobStatus(serverUrl, offlineToken) {
+async function pollJobStatus(serverStore, asset) {
   return new Promise((resolve, reject) => {
     var timerId = setInterval(async function () {
       try {
-        await getJobStatus(serverUrl, offlineToken);
+        await getJobStatus(serverStore, asset);
 	      
         if (
-          exeStatus == 'COMPLETE' ||
-          exeStatus == 'COMPLETE_WITH_ERROR' ||
-          exeStatus == 'STOPPED_BY_USER' ||
-          exeStatus == 'STOPPED_AUTOMATICALLY' ||
-          exeStatus == 'INCOMPLETE' ||
-          exeStatus == 'CANCELED' ||
-          exeStatus == 'LAUNCH_FAILED'
+          exeStatus == Status.COMPLETE ||
+          exeStatus == Status.COMPLETE_WITH_ERROR ||
+          exeStatus == Status.STOPPED_BY_USER ||
+          exeStatus == Status.STOPPED_AUTOMATICALLY ||
+          exeStatus == Status.INCOMPLETE ||
+          exeStatus == Status.CANCELED ||
+          exeStatus == Status.LAUNCH_FAILED
         ){
           // stop polling on end state
           clearInterval(timerId);
@@ -212,26 +583,86 @@ async function pollJobStatus(serverUrl, offlineToken) {
 }
 
 
-async function startJobExecution(serverUrl,branch,offlineToken) {
+async function startJobExecution(serverStore, asset) {
   let jobExecURL =
-    serverUrl +
+  serverStore.getServerUrl +
     "rest/projects/" +
-    projectId +
+    asset.getProjectId +
     "/executions/";
   var AssetParameters = {
     testAsset: {
-      assetId: assetId,
-      revision: branch,
+      assetId: asset.getAssetId,
+      revision: asset.getBranch,
     },
-    offlineToken: offlineToken,
+    offlineToken: serverStore.getOfflineToken,
   };
+
+  if (
+    asset.getExternalType() == "APISUITE" ||
+    asset.getExternalType() == "APITEST" || 
+	  asset.getExternalType() == "APISTUB"
+    ) 
+  {
+    AssetParameters["environment"] = asset.getEnvironment;
+  }
+
+  if (asset.getVariables) {
+    var str_array = asset.getVariables.split(';');
+    var varObj = {};
+	  var keyval;
+	  var key;
+    for (var i = 0; i < str_array.length; i++) {
+      keyval = str_array[i].split('=');
+      key = keyval[0];
+      varObj[key] = keyval[1];
+    }
+    AssetParameters["variables"] = varObj;
+  }
+
+  if(asset.getStartDate)
+  {
+    const event = new Date(asset.getStartDate);
+    var at = {at:event.toISOString()};
+    AssetParameters["scheduled"] = at;
+  }
+
+  if(asset.getDatasets)
+  {
+    var str_array = asset.getDatasets.split(',');
+    await getSrcDataSetId(serverStore,asset,str_array[0]);
+    await getReplaceDataSetId(serverStore,asset,datasetSrcId,str_array[1]);
+    var dataSources = [];
+   
+    var sources = {
+      "source": {
+        "assetId": datasetSrcId
+      },
+      "replacement": {
+        "datasetId": datasetReplaceId
+      }
+    }
+    dataSources.push(sources);
+    AssetParameters["dataSources"] = dataSources;
+  }
+
+  if(tags)
+  {
+   var tag = tags.split(',');
+   AssetParameters["tags"] = tag;    
+  }
+
+  if(secretsCollectionName)
+  {
+   await getSecretCollectionId(serverStore,asset);
+   AssetParameters["secretsCollection"] = asset.getSecretId;    
+  }
  
-  await accessTokenGen(serverUrl, offlineToken);
+  await accessTokenGen(serverStore);
 
   var headers = {
     "Accept-Language": "en",
     "Content-Type": "application/json",
-    Authorization: "Bearer " + accessToken,
+    Authorization: "Bearer " + serverStore.getAccessToken,
   };
   var body = JSON.stringify(AssetParameters);
   console.log("request body = "+body);
@@ -249,9 +680,9 @@ async function startJobExecution(serverUrl,branch,offlineToken) {
         );
       }
       var parsedJSON = response.data;
-      exeId = parsedJSON.id;
-      resultId = parsedJSON.result.id;
-      exeStatus = parsedJSON.status;
+      asset.exeId = parsedJSON.id;
+      asset.resultId = parsedJSON.result.id;
+      asset.exeStatus = parsedJSON.status;
       return true;
     })
     .catch((error) => {
@@ -264,25 +695,25 @@ async function startJobExecution(serverUrl,branch,offlineToken) {
     });
 }
 
-async function AssetIdGenByName(serverUrl,filepath,branch,repositories,project,offlineToken) {
-  var assetName =  path.parse(filepath).name;
-  var encodedAssetName = urlencode(assetName);
-  var encodedBranchName = urlencode(branch);
+async function AssetIdGenByName(serverStore,asset) {
+  var assetName =  path.parse(asset.getFilePath).name;
+  var encodedAssetName = urlencode(asset.getAssetName);
+  var encodedBranchName = urlencode(asset.getBranch);
   var testsListURL =
-    serverUrl +
+    serverStore.getServerUrl +
     "rest/projects/" +
-    projectId +
+    asset.getProjectId +
     "/assets/?assetTypes=EXECUTABLE&name=" +
     encodedAssetName +
     "&revision=" +
     encodedBranchName +
     "&deployable=true";
 
-  await accessTokenGen(serverUrl,offlineToken);
+  await accessTokenGen(serverStore);
 
   var headers = {
     "Accept-Language": "en",
-    Authorization: "Bearer " + accessToken,
+    Authorization: "Bearer " + serverStore.getAccessToken,
   };
   return axios
     .get(testsListURL, { headers: headers })
@@ -307,12 +738,12 @@ async function AssetIdGenByName(serverUrl,filepath,branch,repositories,project,o
           retrievedPath = parsedJSON.content[i].path;
           retrievedRepoId = parsedJSON.content[i].repository_id;
           if (
-            retrievedPath == filepath &&
-            retrievedRepoId == repoId
+            retrievedPath == asset.getFilePath &&
+            retrievedRepoId == asset.getRepoId
           ) {
-            assetId = parsedJSON.content[i].id;
-            externalType = parsedJSON.content[i].external_type;
-            dektopProjId = parsedJSON.content[i].desktop_project_id;
+            asset.assetId = parsedJSON.content[i].id;
+            asset.externalType = parsedJSON.content[i].external_type;
+            asset.desktopProjectId = parsedJSON.content[i].desktop_project_id;
             gotId = true;
             return true;
           }
@@ -320,27 +751,27 @@ async function AssetIdGenByName(serverUrl,filepath,branch,repositories,project,o
         if (!gotId) {
           throw new Error(
             "The file path " +
-              filepath +
+              asset.getFilePath +
               " was not found in the branch " +
-              branch +
+              asset.getBranch +
               " corresponding to the repository " +
-              repository +
+              asset.getRepository +
               " in the project " +
-              project +
+              asset.getProject +
               ". Please check the File path field in the task."
           );
         }
       } else {
         throw new Error(
-          "The file path " +
-          filepath +
-          " was not found in the branch " +
-          branch +
-          " corresponding to the repository " +
-          repository +
-          " in the project " +
-          project +
-          ". Please check the File path field in the task."
+              "The file path " +
+              asset.getFilePath +
+              " was not found in the branch " +
+              asset.getBranch +
+              " corresponding to the repository " +
+              asset.getRepository +
+              " in the project " +
+              asset.getProject +
+              ". Please check the File path field in the task."
         );
       }
     })
@@ -356,18 +787,18 @@ async function AssetIdGenByName(serverUrl,filepath,branch,repositories,project,o
 
 
 
-async function branchValidation(serverUrl,branch,project,offlineToken) {
+async function branchValidation(serverStore, asset) {
   let branchListURL =
-   serverUrl +
+  serverStore.getServerUrl +
     "rest/projects/" +
-    projectId +
+    asset.getProjectId +
     "/branches/";
 
-  await accessTokenGen(serverUrl, offlineToken);
+  await accessTokenGen(serverStore);
 
   var headers = {
     "Accept-Language": "en",
-    Authorization: "Bearer " + accessToken,
+    Authorization: "Bearer " + serverStore.getAccessToken,
   };
   return axios
     .get(branchListURL, { headers: headers })
@@ -389,7 +820,7 @@ async function branchValidation(serverUrl,branch,project,offlineToken) {
       if (total > 0) {
         for (var i = 0; i < total; i++) {
           RetrievedBranchName = parsedJSON.content[i].name;
-          if (branch == RetrievedBranchName) {
+          if (asset.getBranch == RetrievedBranchName) {
             gotBranch = true;
             return true;
           }
@@ -397,18 +828,18 @@ async function branchValidation(serverUrl,branch,project,offlineToken) {
         if (gotBranch == false) {
           throw new Error(
             "The branch " +
-              branch +
+            asset.getBranch +
               " was not found in the project " +
-              project +
+              asset.getProject +
               ". Please check the Branch field in the task."
           );
         }
       } else {
         throw new Error(
           "The branch " +
-            branch +
+          asset.getBranch +
             " was not found in the project " +
-            project +
+            asset.getProject +
             ". Please check the Branch field in the task."
         );
       }
@@ -426,18 +857,18 @@ async function branchValidation(serverUrl,branch,project,offlineToken) {
 
 
 
-async function repoIdGenByName(serverUrl,project,repository,offlineToken) {
+async function repoIdGenByName(serverStore, asset) {
   let reposListURL =
-    serverUrl +
+    serverStore.getServerUrl +
     "rest/projects/" +
-    projectId +
+    asset.getAssetId +
     "/repositories/";
 
-  await accessTokenGen(serverUrl,offlineToken);
+  await accessTokenGen(serverStore);
 
   var headers = {
     "Accept-Language": "en",
-    Authorization: "Bearer " + accessToken,
+    Authorization: "Bearer " + serverStore.getAccessToken,
   };
   return axios
     .get(reposListURL, { headers: headers })
@@ -459,8 +890,8 @@ async function repoIdGenByName(serverUrl,project,repository,offlineToken) {
       if (total > 0) {
         for (var i = 0; i < total; i++) {
           retrievedRepoName = parsedJSON.content[i].uri;
-          if (repository == retrievedRepoName) {
-            repoId = parsedJSON.content[i].id;
+          if (asset.getRepository == retrievedRepoName) {
+            asset.repoId = parsedJSON.content[i].id;
             gotId = true;
             return true;
           }
@@ -468,18 +899,18 @@ async function repoIdGenByName(serverUrl,project,repository,offlineToken) {
         if (!gotId) {
           throw new Error(
             "The repository " +
-              repository +
+            asset.getRepository +
               " was not found in the project " +
-              project +
+              asset.getProject +
               " Please check the Repository field in the task."
           );
         }
       } else {
         throw new Error(
           "The repository " +
-            repository +
+          asset.getRepository +
             " was not found in the project " +
-            project +
+            asset.getProject +
             " Please check the Repository field in the task."
         );
       }
@@ -494,19 +925,19 @@ async function repoIdGenByName(serverUrl,project,repository,offlineToken) {
     });
 }
 
-async function projectIdGenByName(serverUrl,project,teamspace,offlineToken) {
-  let encodedProjName = urlencode(project);
+async function projectIdGenByName(serverStore, asset) {
+  let encodedProjName = urlencode(asset.getProject);
   let projectsListURL =
-    serverUrl +
+    serverStore.getServerUrl +
     "rest/projects?archived=false&member=true&name=" +
     encodedProjName;
 
-  await accessTokenGen(serverUrl,offlineToken);
+  await accessTokenGen(serverStore);
 
   var headers = {
     "Accept-Language": "en",
-    Authorization: "Bearer " + accessToken,
-    spaceId: teamSpaceId,
+    Authorization: "Bearer " + serverStore.getAccessToken,
+    spaceId: asset.getTeamSpaceId,
   };
   return axios
     .get(projectsListURL, { headers: headers })
@@ -528,8 +959,8 @@ async function projectIdGenByName(serverUrl,project,teamspace,offlineToken) {
       if (total > 0) {
         for (var i = 0; i < total; i++) {
           retrievedProjName = parsedJSON.data[i].name;
-          if (project == retrievedProjName) {
-            projectId = parsedJSON.data[i].id;
+          if (asset.getProject == retrievedProjName) {
+            asset.projectId = parsedJSON.data[i].id;
             gotId = true;
             return true;
           }
@@ -562,8 +993,8 @@ async function projectIdGenByName(serverUrl,project,teamspace,offlineToken) {
       );
     });
 }
-function serverSSLCheck(serverUrl) {
-  var sslCheckUrl = serverUrl;
+function serverSSLCheck(serverStore) {
+  var sslCheckUrl = serverStore.getServerUrl;
   return axios
     .get(sslCheckUrl)
     .then((response) => {
@@ -599,9 +1030,9 @@ function serverSSLCheck(serverUrl) {
     });
 }
 
-function accessTokenGen(serverUrl,offlineToken) {
-  var tokenURL = serverUrl + "rest/tokens/";
-  var body = "refresh_token=" + offlineToken;
+function accessTokenGen(serverStore) {
+  var tokenURL = serverStore.getServerUrl + "rest/tokens/";
+  var body = "refresh_token=" + serverStore.getOfflineToken;
   var headers = {
     "Content-Type": "application/x-www-form-urlencoded",
   };
@@ -633,7 +1064,7 @@ function accessTokenGen(serverUrl,offlineToken) {
             response.status
         );
       }
-      accessToken = response.data.access_token;
+      serverStore.accessToken = response.data.access_token;
       return response.data;
     })
     .catch((error) => {
@@ -644,14 +1075,14 @@ function accessTokenGen(serverUrl,offlineToken) {
       } else if (error.code == "UNABLE_TO_VERIFY_LEAF_SIGNATURE") {
         throw new Error(
           "Could not establish secure connection to the server " +
-            serverUrl +
+            serverStore.getServerUrl +
             ". Please validate the SSL certificate of the server or import the CA certificate of the server to your trust store. Error: " +
             error.message
         );
       } else if (error.code == "CERT_HAS_EXPIRED") {
         throw new Error(
           "Could not establish secure connection to the server " +
-          serverUrl +
+          serverStore.getServerUrl +
           +
             ". The server presented an expired SSL certificate. Error: " +
             error.message
@@ -667,15 +1098,15 @@ function accessTokenGen(serverUrl,offlineToken) {
     });
 }
 
-async function teamspaceIdGenByName(serverUrl,teamspace,offlineToken) {
-  let encodedTeamspaceName = urlencode(teamspace);
+async function teamspaceIdGenByName(serverStore, asset) {
+  let encodedTeamspaceName = urlencode(asset.getTeamspace);
   let teamspacesListURL =
-     serverUrl +
+    serverStore.getServerUrl +
     "rest/spaces?search=" +
     encodedTeamspaceName +
     "&member=true";
 
-  await accessTokenGen(serverUrl,offlineToken,teamspace);
+  await accessTokenGen(serverStore);
   console.log("##########################access token is = "+accessToken);
   var headers = {
     "Accept-Language": "en",
@@ -702,7 +1133,7 @@ async function teamspaceIdGenByName(serverUrl,teamspace,offlineToken) {
         for (var i = 0; i < total; i++) {
           retrievedTeamSpaceName = parsedJSON[i].displayName;
           if (teamspace == retrievedTeamSpaceName) {
-            teamSpaceId = parsedJSON[i].id;
+            asset.teamSpaceId = parsedJSON[i].id;
             gotId = true;
             return;
           }
@@ -733,6 +1164,173 @@ async function teamspaceIdGenByName(serverUrl,teamspace,offlineToken) {
     });
 } 
 
+async function getSrcDataSetId(serverStore, asset, srcDataSet) {
+  let datasetURL = serverStore.getServer+"rest/projects/"+asset.getProjectId+"/assets/"+asset.getAssetId+"/"+asset.getBranch+"/dependencies/?assetTypes=dataset";
+  await accessTokenGen(serverStore);
 
+  var headers = {
+    "Accept-Language": "en",
+    Authorization: "Bearer " + serverStore.getAccessToken,
+  };
+  return axios
+    .get(datasetURL, { headers: headers })
+    .then((response) => {
+      if (response.status != 200) {
+        throw new Error(
+          "Error during retrieval of Source data set ID. " +
+          datasetURL +
+            " returned " +
+            response.status +
+            " response code. Response: " +
+            response.data
+        );
+      }
+      var parsedJSON = response.data;
+      var total = parsedJSON.totalElements;
+      var retrievedDatasetName;
+      var gotId = false;
+      if (total > 0) {
+        for (var i = 0; i < total; i++) {
+          
+          retrievedDatasetName = parsedJSON.content[i].path;
+          if (srcDataSet == retrievedDatasetName) {
+            datasetSrcId = parsedJSON.content[i].id;
+            gotId = true;
+            return true;
+          }
+        }
+        if (!gotId) {
+          throw new Error(
+           "No Dataset configured for the Asset"
+          );
+        }
+      } else {
+        throw new Error(
+          "No Dataset configured for the Asset"
+        );
+      }
+    })
+    .catch((error) => {
+      throw new Error(
+        "Error when accessing DataSet API - " +
+        datasetURL +
+          ". Error: " +
+          error
+      );
+    });
+}
+
+async function getReplaceDataSetId(serverStore, asset, srcDataSetId, repDataset) {
+  let repDataUrl = serverStore.getServer+"rest/projects/"+asset.getProjectId+"/datasets/?branch="+asset.getBranch+"&assetId="+srcDataSetId+"&findSwaps=true";
+  await accessTokenGen(serverStore);
+
+  var headers = {
+    "Accept-Language": "en",
+    Authorization: "Bearer " + serverStore.getAccessToken,
+  };
+  return axios
+    .get(repDataUrl, { headers: headers })
+    .then((response) => {
+      if (response.status != 200) {
+        throw new Error(
+          "Error during retrieval of Source data set ID. " +
+          repDataUrl +
+            " returned " +
+            response.status +
+            " response code. Response: " +
+            response.data
+        );
+      }
+      var parsedJSON = response.data;
+      var total = parsedJSON.data.length;
+      var retrievedDatasetName;
+      var gotId = false;
+      if (total > 0) {
+        for (var i = 0; i < total; i++) {
+          retrievedDatasetName = parsedJSON.data[i].displayPath;
+          if (repDataset == retrievedDatasetName) {
+            datasetReplaceId = parsedJSON.data[i].datasetId;
+            gotId = true;
+            return true;
+          }
+        }
+        if (!gotId) {
+          throw new Error(
+           "No Swap configured for the DataSets"
+          );
+        }
+      } else {
+        throw new Error(
+          "No Swap configured for the DataSets"
+        );
+      }
+    })
+    .catch((error) => {
+      throw new Error(
+        "Error when accessing DataSet Swap API - " +
+        repDataUrl +
+          ". Error: " +
+          error
+      );
+    });
+}
+
+async function getSecretCollectionId(serverStore, asset) {
+  
+  let secretUrl = serverStore.getServer+"rest/projects/"+asset.getProjectId+"/secrets/?type=ENVIRONMENT";
+  await accessTokenGen(serverStore);
+
+  var headers = {
+    "Accept-Language": "en",
+    Authorization: "Bearer " + serverStore.getAccessToken,
+  };
+  return axios
+    .get(secretUrl, { headers: headers })
+    .then((response) => {
+      if (response.status != 200) {
+        throw new Error(
+          "Error during retrieval of Secret Collection ID. " +
+          secretUrl +
+            " returned " +
+            response.status +
+            " response code. Response: " +
+            response.data
+        );
+      }
+      var parsedJSON = response.data;
+      var total = parsedJSON.data.length;
+      var retsecretCollectionName;
+      var gotId = false;
+      if (total > 0) {
+        for (var i = 0; i < total; i++) {
+          var respData = parsedJSON.data[i];
+          retsecretCollectionName = respData.name;
+          if (asset.getSecretsCollection == retsecretCollectionName) {
+            secretsCollectionId = respData.id;
+            asset.secretsCollectionId = secretsCollectionId;
+            gotId = true;
+            return true;
+          }
+        }
+        if (!gotId) {
+          throw new Error(
+           "Secret collection does not available on server."
+          );
+        }
+      } else {
+        throw new Error(
+          "No Secret configured."
+        );
+      }
+    })
+    .catch((error) => {
+      throw new Error(
+        "Error when accessing Secret Collection API - " +
+        secretUrl +
+          ". Error: " +
+          error
+      );
+    });
+}
 // Call the main function to run the action
 main();
