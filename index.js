@@ -861,7 +861,7 @@ async function repoIdGenByName(serverStore, asset) {
   let reposListURL =
     serverStore.getServerUrl +
     "rest/projects/" +
-    asset.getAssetId +
+    asset.getProjectId +
     "/repositories/";
 
   await accessTokenGen(serverStore);
