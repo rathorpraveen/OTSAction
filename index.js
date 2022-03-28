@@ -343,13 +343,13 @@ const main = async () => {
     await startJobExecution(serverStore, asset);
 
     if (
-      exeStatus != Status.COMPLETE ||
-      exeStatus != Status.COMPLETE_WITH_ERROR ||
-      exeStatus != Status.STOPPED_BY_USER ||
-      exeStatus != Status.STOPPED_AUTOMATICALLY ||
-      exeStatus != Status.INCOMPLETE ||
-      exeStatus != Status.CANCELED ||
-      exeStatus != Status.LAUNCH_FAILED
+      asset.getExecStatus != Status.COMPLETE ||
+      asset.getExecStatus != Status.COMPLETE_WITH_ERROR ||
+      asset.getExecStatus != Status.STOPPED_BY_USER ||
+      asset.getExecStatus != Status.STOPPED_AUTOMATICALLY ||
+      asset.getExecStatus != Status.INCOMPLETE ||
+      asset.getExecStatus != Status.CANCELED ||
+      asset.getExecStatus != Status.LAUNCH_FAILED
     )
     {
 
@@ -475,8 +475,8 @@ async function getResults(serverStore, asset) {
       }
       console.log("@@");
       if (
-        exeStatus != 'CANCELED' &&
-        exeStatus != 'LAUNCH_FAILED'
+        asset.getExecStatus != 'CANCELED' &&
+        asset.getExecStatus != 'LAUNCH_FAILED'
       ) {
         var total = parsedJSON.reports.length;
 
@@ -560,13 +560,13 @@ async function pollJobStatus(serverStore, asset) {
         await getJobStatus(serverStore, asset);
 	      
         if (
-          exeStatus == Status.COMPLETE ||
-          exeStatus == Status.COMPLETE_WITH_ERROR ||
-          exeStatus == Status.STOPPED_BY_USER ||
-          exeStatus == Status.STOPPED_AUTOMATICALLY ||
-          exeStatus == Status.INCOMPLETE ||
-          exeStatus == Status.CANCELED ||
-          exeStatus == Status.LAUNCH_FAILED
+          asset.getExecStatus == Status.COMPLETE ||
+          asset.getExecStatus == Status.COMPLETE_WITH_ERROR ||
+          asset.getExecStatus == Status.STOPPED_BY_USER ||
+          asset.getExecStatus == Status.STOPPED_AUTOMATICALLY ||
+          asset.getExecStatus == Status.INCOMPLETE ||
+          asset.getExecStatus == Status.CANCELED ||
+          asset.getExecStatus == Status.LAUNCH_FAILED
         ){
           // stop polling on end state
           clearInterval(timerId);
@@ -680,9 +680,9 @@ async function startJobExecution(serverStore, asset) {
         );
       }
       var parsedJSON = response.data;
-      asset.exeId = parsedJSON.id;
-      asset.resultId = parsedJSON.result.id;
-      asset.exeStatus = parsedJSON.status;
+      asset.setExecutionId = parsedJSON.id;
+      asset.setResultId = parsedJSON.result.id;
+      asset.setExecStatus = parsedJSON.status;
       return true;
     })
     .catch((error) => {
@@ -741,9 +741,9 @@ async function AssetIdGenByName(serverStore,asset) {
             retrievedPath == asset.getFilePath &&
             retrievedRepoId == asset.getRepoId
           ) {
-            asset.assetId = parsedJSON.content[i].id;
-            asset.externalType = parsedJSON.content[i].external_type;
-            asset.desktopProjectId = parsedJSON.content[i].desktop_project_id;
+            asset.setAssetId = parsedJSON.content[i].id;
+            asset.setExternalType = parsedJSON.content[i].external_type;
+            asset.setDesktopProjectId = parsedJSON.content[i].desktop_project_id;
             gotId = true;
             return true;
           }
@@ -891,7 +891,7 @@ async function repoIdGenByName(serverStore, asset) {
         for (var i = 0; i < total; i++) {
           retrievedRepoName = parsedJSON.content[i].uri;
           if (asset.getRepository == retrievedRepoName) {
-            asset.repoId = parsedJSON.content[i].id;
+            asset.setRepoId = parsedJSON.content[i].id;
             gotId = true;
             return true;
           }
@@ -960,7 +960,7 @@ async function projectIdGenByName(serverStore, asset) {
         for (var i = 0; i < total; i++) {
           retrievedProjName = parsedJSON.data[i].name;
           if (asset.getProject == retrievedProjName) {
-            asset.projectId = parsedJSON.data[i].id;
+            asset.setProjectId = parsedJSON.data[i].id;
             gotId = true;
             return true;
           }
@@ -1064,7 +1064,7 @@ function accessTokenGen(serverStore) {
             response.status
         );
       }
-      serverStore.accessToken = response.data.access_token;
+      serverStore.setAccessToken = response.data.access_token;
       return response.data;
     })
     .catch((error) => {
