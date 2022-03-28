@@ -1107,10 +1107,10 @@ async function teamspaceIdGenByName(serverStore, asset) {
     "&member=true";
 
   await accessTokenGen(serverStore);
-  console.log("##########################access token is = "+accessToken);
+  
   var headers = {
     "Accept-Language": "en",
-    Authorization: "Bearer " + accessToken,
+    Authorization: "Bearer " + serverStore.getAccessToken,
   };
   return axios
     .get(teamspacesListURL, { headers: headers })
