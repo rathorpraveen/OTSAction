@@ -438,9 +438,9 @@ async function getResults(serverStore, asset) {
   var resultsURL =
   serverStore.getServerUrl +
     "rest/projects/" +
-    projectId +
+    asset.getProjectId +
     "/results/" +
-    resultId;
+    asset.getResultId;
 
   await accessTokenGen(serverStore);
 
