@@ -1168,7 +1168,7 @@ async function teamspaceIdGenByName(serverStore, asset) {
 } 
 
 async function getSrcDataSetId(serverStore, asset, srcDataSet) {
-  let datasetURL = serverStore.getServer+"rest/projects/"+asset.getProjectId+"/assets/"+asset.getAssetId+"/"+asset.getBranch+"/dependencies/?assetTypes=dataset";
+  let datasetURL = serverStore.getServerUrl+"rest/projects/"+asset.getProjectId+"/assets/"+asset.getAssetId+"/"+asset.getBranch+"/dependencies/?assetTypes=dataset";
   await accessTokenGen(serverStore);
 
   var headers = {
@@ -1224,7 +1224,7 @@ async function getSrcDataSetId(serverStore, asset, srcDataSet) {
 }
 
 async function getReplaceDataSetId(serverStore, asset, srcDataSetId, repDataset) {
-  let repDataUrl = serverStore.getServer+"rest/projects/"+asset.getProjectId+"/datasets/?branch="+asset.getBranch+"&assetId="+srcDataSetId+"&findSwaps=true";
+  let repDataUrl = serverStore.getServerUrl+"rest/projects/"+asset.getProjectId+"/datasets/?branch="+asset.getBranch+"&assetId="+srcDataSetId+"&findSwaps=true";
   await accessTokenGen(serverStore);
 
   var headers = {
@@ -1280,7 +1280,7 @@ async function getReplaceDataSetId(serverStore, asset, srcDataSetId, repDataset)
 
 async function getSecretCollectionId(serverStore, asset) {
   
-  let secretUrl = serverStore.getServer+"rest/projects/"+asset.getProjectId+"/secrets/?type=ENVIRONMENT";
+  let secretUrl = serverStore.getServerUrl+"rest/projects/"+asset.getProjectId+"/secrets/?type=ENVIRONMENT";
   await accessTokenGen(serverStore);
 
   var headers = {
