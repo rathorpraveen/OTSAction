@@ -473,7 +473,6 @@ async function getResults(serverStore, asset) {
       } else {
         
       }
-      console.log("@@");
       if (
         asset.getExecStatus != 'CANCELED' &&
         asset.getExecStatus != 'LAUNCH_FAILED'
@@ -689,6 +688,9 @@ async function startJobExecution(serverStore, asset) {
       asset.setExecutionId = parsedJSON.id;
       asset.setResultId = parsedJSON.result.id;
       asset.setExecStatus = parsedJSON.status;
+      console.log(
+        " Test Execution Status: " + asset.getExecStatus
+      );
       return true;
     })
     .catch((error) => {
@@ -937,7 +939,7 @@ async function projectIdGenByName(serverStore, asset) {
     serverStore.getServerUrl +
     "rest/projects?archived=false&member=true&name=" +
     encodedProjName;
-console.log("@@@@@@@@@@@@@@@@@@@@@@ url is ="+projectsListURL);
+
   await accessTokenGen(serverStore);
 
   var headers = {
@@ -960,13 +962,11 @@ console.log("@@@@@@@@@@@@@@@@@@@@@@ url is ="+projectsListURL);
       }
       var parsedJSON = response.data;
       var total = parsedJSON.total;
-      console.log("@@@@@@@@@@@@@@@@@@@@@@@@@ total is "+total);
       var retrievedProjName;
       var gotId = false;
       if (total > 0) {
         for (var i = 0; i < total; i++) {
           retrievedProjName = parsedJSON.data[i].name;
-          console.log("@@@@@@@@@@@@@@@@@@@@@@@@@retrievedProjName ="+retrievedProjName);
           if (asset.getProject == retrievedProjName) {
             asset.setProjectId = parsedJSON.data[i].id;
             gotId = true;
@@ -983,7 +983,6 @@ console.log("@@@@@@@@@@@@@@@@@@@@@@ url is ="+projectsListURL);
           );
         }
       } else {
-        console.log("@@@@@@@@@@@@@@@@ isnide else");
         throw new Error(
           "You do not have access to the project " +
           asset.getProject +
@@ -1198,13 +1197,10 @@ async function getSrcDataSetId(serverStore, asset, srcDataSet) {
       var total = parsedJSON.totalElements;
       var retrievedDatasetName;
       var gotId = false;
-      console.log("################## total datasets"+total);
       if (total > 0) {
         for (var i = 0; i < total; i++) {
           
           retrievedDatasetName = parsedJSON.content[i].path;
-          console.log("######################## retrievedDatasetName = "+retrievedDatasetName);
-          console.log("######################## srcDataSet = "+srcDataSet);
           if (srcDataSet == retrievedDatasetName) {
             datasetSrcId = parsedJSON.content[i].id;
             gotId = true;
