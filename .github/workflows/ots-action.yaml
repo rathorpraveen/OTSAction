@@ -15,10 +15,8 @@ jobs:
           offlineToken: eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0ZjllYzhlZC0zYzViLTQyMzgtYTAyMy01ZWFjMDEyYWRiNWIifQ.eyJpYXQiOjE2NDg0OTQzNjgsImp0aSI6IjdkNTIzZDdlLTkwZTYtNDIwMC04YmVkLWNjYTMxMGMzOTM1ZiIsImlzcyI6Imh0dHBzOi8vMTAuMTM0LjU5LjIzNi5uaXAuaW8vYXV0aC9yZWFsbXMvdGVzdHNlcnZlciIsImF1ZCI6Imh0dHBzOi8vMTAuMTM0LjU5LjIzNi5uaXAuaW8vYXV0aC9yZWFsbXMvdGVzdHNlcnZlciIsInN1YiI6IjZhYWZhZTA1LTk3ZDYtNDUwOS1iZTk1LTIzMGQ0MWZmYWQ1YSIsInR5cCI6Ik9mZmxpbmUiLCJhenAiOiJ0ZXN0c2VydmVyIiwic2Vzc2lvbl9zdGF0ZSI6ImNhYWM0NGJkLWYzZmYtNGFkZi1iNDYwLTJhODAwYTIyZGU0ZSIsInNjb3BlIjoidGVzdHNlcnZlciBlbWFpbCBvZmZsaW5lX2FjY2VzcyBwcm9maWxlIn0.ufH-xqCmdaJ6C5YVdCS2puYKYN_vAeJrsdWwt-XLBhg
           teamspace: Initial Team Space
           project: Swadesh_SVT
-          branch: Swadesh_Common_FTProject
+          branch: master
           repository: git@github01.hclpnp.com:testingproducts/FT_SVT_TestAsset.git
-          filepath: UIPrjMultiDataset1023/Compound Tests/COMPTest_WITHDS1023.testsuite
-          datasets: UIPrjMultiDataset1023/Datasets/DS1_1023.csv:UIPrjMultiDataset1023/Datasets/DS2_1023.csv;UIPrjMultiDataset1023/Datasets/DS4_1023.csv:UIPrjMultiDataset1023/Datasets/DS5_1023.csv
-          tags: pink,floyd
-          variables: abc=xyz
+          filepath: MultipleTest/Tests/actiTime.testsuite
+          
           
