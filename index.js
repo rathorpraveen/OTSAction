@@ -628,12 +628,15 @@ async function startJobExecution(serverStore, asset) {
 
   if(asset.getDatasets)
   {
-    var str_array = asset.getDatasets.split(',');
-    await getSrcDataSetId(serverStore,asset,str_array[0]);
-    await getReplaceDataSetId(serverStore,asset,datasetSrcId,str_array[1]);
     var dataSources = [];
-   
-    var sources = {
+    var sources;
+    var str_array = datasets.split(';');
+    for (var i = 0; i < str_array.length; i++)
+    {
+      var datasetArray = str_array[i].split(':');
+      await getSrcDataSetId(serverStore,asset,datasetArray[0]);
+      await getReplaceDataSetId(serverStore,asset,datasetSrcId,datasetArray[1]);
+      sources = {
       "source": {
         "assetId": datasetSrcId
       },
@@ -641,7 +644,10 @@ async function startJobExecution(serverStore, asset) {
         "datasetId": datasetReplaceId
       }
     }
-    dataSources.push(sources);
+	  dataSources.push(sources);
+    }
+    
+    
     AssetParameters["dataSources"] = dataSources;
   }
 
