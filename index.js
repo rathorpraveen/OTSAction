@@ -488,7 +488,7 @@ async function getResults(serverStore, asset) {
             console.log(
               reportName +
                 " : " +
-                url.resolve(serverUrl, reporthref)
+                url.resolve(asset.getServerUrl, reporthref)
             );
           }
         } else {
