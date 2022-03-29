@@ -630,7 +630,7 @@ async function startJobExecution(serverStore, asset) {
   {
     var dataSources = [];
     var sources;
-    var str_array = datasets.split(';');
+    var str_array = asset.getDatasets.split(';');
     for (var i = 0; i < str_array.length; i++)
     {
       var datasetArray = str_array[i].split(':');
