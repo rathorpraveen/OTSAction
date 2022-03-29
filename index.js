@@ -1192,10 +1192,13 @@ async function getSrcDataSetId(serverStore, asset, srcDataSet) {
       var total = parsedJSON.totalElements;
       var retrievedDatasetName;
       var gotId = false;
+      console.log("################## total datasets"+total);
       if (total > 0) {
         for (var i = 0; i < total; i++) {
           
           retrievedDatasetName = parsedJSON.content[i].path;
+          console.log("######################## retrievedDatasetName = "+retrievedDatasetName);
+          console.log("######################## srcDataSet = "+srcDataSet);
           if (srcDataSet == retrievedDatasetName) {
             datasetSrcId = parsedJSON.content[i].id;
             gotId = true;
