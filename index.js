@@ -852,11 +852,12 @@ async function branchValidation(serverStore, asset) {
       }
     })
     .catch((error) => {
+      console.log(error.response.data.message);
       throw new Error(
         "Error when accessing branch list API - " +
           branchListURL +
           ". Error: " +
-          error.response.data.message
+          error
       );
     });
 }
