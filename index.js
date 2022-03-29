@@ -856,7 +856,7 @@ async function branchValidation(serverStore, asset) {
         "Error when accessing branch list API - " +
           branchListURL +
           ". Error: " +
-          error
+          error.response.data.message
       );
     });
 }
