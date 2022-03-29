@@ -17,6 +17,7 @@ jobs:
           project: demo
           branch: master
           repository: git@github01.hclpnp.com:testingproducts/FT_SVT_TestAsset.git
-          filepath: MultipleTest/Tests/actiTime.testsuite
+          filepath: RITProject1013/Logical/calculator.wsc/Add.opr/AddTest.tsq
+          environment: COMP-4518-1
           
           
