@@ -309,6 +309,8 @@ const main = async () => {
     asset.setRepository = repository;
     const filepath          = core.getInput('filepath',{required: true});
     asset.setFilepath = filepath;
+    const environment          = core.getInput('environment',{required: true});
+    asset.setEnvironment = environment;
     const variables         = core.getInput('variables',{required: false});
     asset.setVariables = variables;
     const datasets          = core.getInput('datasets',{required: false});
