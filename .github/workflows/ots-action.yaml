@@ -18,4 +18,6 @@ jobs:
           branch: Swadesh_Common_FTProject
           repository: git@github01.hclpnp.com:testingproducts/FT_SVT_TestAsset.git
           filepath: UIPrjMultiDataset1023/Tests/googleTest1023.testsuite
+          datasets: UIPrjMultiDataset1023/Datasets/DS1_1023.csv:UIPrjMultiDataset1023/Datasets/DS2_1023.csv
+          tags: pink,floyd
           
