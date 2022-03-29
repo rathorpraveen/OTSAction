@@ -809,6 +809,7 @@ async function branchValidation(serverStore, asset) {
   return axios
     .get(branchListURL, { headers: headers })
     .then((response) => {
+      console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ response.status"+response.status);
       if (response.status != 200) {
         throw new Error(
           "Error during retrieval of branches. " +
