@@ -6,21 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/rathorpraveen/OTSAction.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/rathorpraveen/OTSAction/issues"
-  },
-  "homepage": "https://github.com/rathorpraveen/OTSAction#readme",
   "dependencies": {
     "@actions/core": "^1.6.0",
     "@actions/github": "^5.0.0",
-	"axios": "^0.26.0",
+    "axios": "^0.26.0",
     "htmlparser2": "^4.1.0",
     "path": "^0.12.7",
     "url": "^0.11.0",
